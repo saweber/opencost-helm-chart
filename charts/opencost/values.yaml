@@ -51,7 +51,8 @@ podLabels: {}
 priorityClassName: ~
 
 # -- Holds pod-level security attributes and common container settings
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 service:
@@ -63,7 +64,8 @@ service:
   # --  Kubernetes Service type
   type: ClusterIP
   # -- extra ports.  Useful for sidecar pods such as oauth-proxy
-  extraPorts: []
+  extraPorts:
+    []
     # - name: oauth-proxy
     #   port: 8081
     #   targetPort: 8081
@@ -79,10 +81,11 @@ opencost:
   exporter:
     # API_PORT for the cost-model to listen on
     apiPort: 9003
+    # debugPort: 40000 # for development purposes (debugging with delve) and not for production.
     # -- The GCP Pricing API requires a key. This is supplied just for evaluation.
     cloudProviderApiKey: ""
     # -- Default cluster ID to use if cluster_id is not set in Prometheus metrics.
-    defaultClusterId: 'default-cluster'
+    defaultClusterId: "default-cluster"
     image:
       # -- Exporter container image registry
       registry: quay.io
@@ -102,12 +105,12 @@ opencost:
     resources:
       # -- CPU/Memory resource requests
       requests:
-        cpu: '10m'
-        memory: '55Mi'
+        cpu: "10m"
+        memory: "55Mi"
       # -- CPU/Memory resource limits
       limits:
-        cpu: '999m'
-        memory: '1Gi'
+        cpu: "999m"
+        memory: "1Gi"
     # Liveness probe configuration
     livenessProbe:
       # -- Whether probe is enabled
@@ -129,7 +132,8 @@ opencost:
       # -- Number of failures for probe to be considered failed
       failureThreshold: 3
     # -- The security options the container should be run with
-    securityContext: {}
+    securityContext:
+      {}
       # capabilities:
       #   drop:
       #   - ALL
@@ -162,7 +166,8 @@ opencost:
     # -- List of additional environment variables to set in the container
     env: []
     # -- Any extra environment variables you would like to pass on to the pod
-    extraEnv: {}
+    extraEnv:
+      {}
       # FOO: BAR
   customPricing:
     # -- Enables custom pricing configuration
@@ -203,7 +208,6 @@ opencost:
     # -- The max number of days that any single query will be made to construct Cloud Costs
     queryWindowDays: 7
 
-
   metrics:
     serviceMonitor:
       # -- Create ServiceMonitor resource for scraping metrics using PrometheusOperator
@@ -223,13 +227,15 @@ opencost:
       # -- MetricRelabelConfigs to apply to samples before ingestion
       metricRelabelings: []
       # -- extra Endpoints to add to the ServiceMonitor.  Useful for scraping sidecars
-      extraEndpoints: []
+      extraEndpoints:
+        []
         # - port: oauth-metrics
         #   path: /metrics
       # -- HTTP scheme used for scraping. Defaults to `http`
       scheme: http
       # -- TLS configuration for scraping metrics
-      tlsConfig: {}
+      tlsConfig:
+        {}
         # caFile: /etc/prom-certs/root-cert.pem
         # certFile: /etc/prom-certs/cert-chain.pem
         # insecureSkipVerify: true
@@ -265,13 +271,13 @@ opencost:
       port: 80
     amp:
       # -- Use Amazon Managed Service for Prometheus (AMP)
-      enabled: false  # If true, opencost will be configured to remote_write and query from Amazon Managed Service for Prometheus.
+      enabled: false # If true, opencost will be configured to remote_write and query from Amazon Managed Service for Prometheus.
       # -- Workspace ID for AMP
       workspaceId: ""
     thanos:
       enabled: false
-      queryOffset: ''
-      maxSourceResolution: ''
+      queryOffset: ""
+      maxSourceResolution: ""
       internal:
         enabled: true
         serviceName: my-thanos-query
@@ -279,7 +285,7 @@ opencost:
         port: 10901
       external:
         enabled: false
-        url: 'https://thanos-query.example.com/thanos'
+        url: "https://thanos-query.example.com/thanos"
 
   ui:
     # -- Enable OpenCost UI
@@ -299,12 +305,12 @@ opencost:
     resources:
       # -- CPU/Memory resource requests
       requests:
-        cpu: '10m'
-        memory: '55Mi'
+        cpu: "10m"
+        memory: "55Mi"
       # -- CPU/Memory resource limits
       limits:
-        cpu: '999m'
-        memory: '1Gi'
+        cpu: "999m"
+        memory: "1Gi"
     # used in the default.nginx.conf if you want to switch for using with Docker
     # apiServer: 0.0.0.0
     uiPort: 9090
@@ -329,7 +335,8 @@ opencost:
       # -- Number of failures for probe to be considered failed
       failureThreshold: 3
     # -- The security options the container should be run with
-    securityContext: {}
+    securityContext:
+      {}
       # capabilities:
       #   drop:
       #   - ALL
@@ -349,7 +356,8 @@ opencost:
       # -- Ingress controller which implements the resource
       ingressClassName: ""
       # -- Annotations for Ingress resource
-      annotations: {}
+      annotations:
+        {}
         # kubernetes.io/tls-acme: "true"
       # -- A list of host rules used to configure the Ingress
       # @default -- See [values.yaml](values.yaml)
@@ -361,7 +369,8 @@ opencost:
       servicePort: http-ui
       # servicePort: oauth-proxy
       # -- Ingress TLS configuration
-      tls: []
+      tls:
+        []
         #  - secretName: chart-example-tls
         #    hosts:
         #      - chart-example.local
@@ -379,14 +388,16 @@ opencost:
     #   value: <access_key>
     # - name: AWS_SECRET_ACCESS_KEY
     #   value: <secret_key>
-    resources: {}
+    resources:
+      {}
       # limits:
       #   cpu: 200m
       #   memory: 500Mi
       # requests:
       #   cpu: 20m
       #   memory: 32Mi
-    securityContext: {}
+    securityContext:
+      {}
       # capabilities:
       #   drop:
       #   - ALL
@@ -403,7 +414,8 @@ opencost:
   topologySpreadConstraints: []
 
   # -- extra sidecars to add to the pod.  Useful for things like oauth-proxy for the UI
-  extraContainers: []
+  extraContainers:
+    []
     # - name: oauth-proxy
     #   image: quay.io/oauth2-proxy/oauth2-proxy:v7.5.1
     #   args:
